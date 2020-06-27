@@ -1,14 +1,15 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 import uuid from 'uuid'
 
 export const TaskListContext = createContext()
 
 const TaskListContextProvider = props => {
-  const [tasks, setTasks] = useState([
-    {title: 'Read the book1', id: 1},
-    {title: 'Read the book2', id: 2},
-    {title: 'Read the book3', id: 3}
-  ])
+  const initialState = JSON.parse(localStorage.getItem('tasks')) || []
+  const [tasks, setTasks] = useState(initialState)
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
 
   const [editItem, setEditItem] = useState(null)
 
